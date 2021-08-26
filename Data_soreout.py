@@ -3,16 +3,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
-#df = pd.read_csv('(P1)_1000rpm.txt',engine='python', sep='\s')
-#TYPE = df.dtypes #確認資料型態
-#print(TYPE)
-
-#current = df[['Ierms','Irms_3']]
-##df["U123"]=(df["Urms_12"].astype(float) + df["Urms_23"].astype(float) + df["Urms_31"].astype(float))/3 #將series內的資料型態轉換成float
-#print(df["U123"])
-#print(df["嚜穋ecorder_time"])
-
 # #=====================圖表指令===============================
+# df = pd.read_csv('(P1)_1000rpm.txt',engine='python', sep='\s')
+# #TYPE = df.dtypes #確認資料型態
+# #print(TYPE)
+
+# #current = df[['Ierms','Irms_3']]
+# df["U123"]=(df["Urms_12"].astype(float) + df["Urms_23"].astype(float) + df["Urms_31"].astype(float))/3 #將series內的資料型態轉換成float
+# #print(df["U123"])
+# #print(df["嚜穋ecorder_time"])
 # plt.plot(df["嚜穋ecorder_time"].astype(int)/1000,df["U123"], label="Urms123")
 # #U123lines = plt.plot(df["嚜穋ecorder_time"].astype(int)/1000,df["U123"])
 # #plt.setp(U123lines,marker = "o")
@@ -77,14 +76,33 @@ import os
 
 # #=====================圖表指令===============================
 df = pd.read_csv('Dmagnization_test_500 rpm.txt',engine='python', sep='\s')
-TYPE = df.dtypes #確認資料型態
-# print(df.head(5))
-#print(df["recorder_time"].head(5).astype(int))
-#.astype(int)/100
-plt.plot(df["recorder_time"],df["HVB_SCT_ACTIVE"], label="HVB_SCT_ACTIVE")
-plt.ylabel("Trigger]") # y label
-plt.xlabel("Time [sec]") # x label
-plt.grid(True) #顯示網格
-plt.legend #顯示資料的標籤
+x= np.linspace(1, df.shape[0]/100, df.shape[0] )
+# #note=========
+# 可以理解為共享y軸
+# 1.ax1=ax.twiny()
+# 2.ax1=plt.twiny()
+# 可以理解為共享x軸
+# 1.ax1=ax.twinx()
+# 2.ax1=plt.twinx()
+# #=============
+fig, ax1 = plt.subplots()
+plt.title('AVL Raw Data')
+plt.xlabel('SCC')
+ax2 = ax1.twinx()
+ax3 = ax1.twiny()
+
+ax1.set_ylabel('HVB_SCT_ACTIVE/HVB_IDLE_ACTIVE', color='tab:blue')
+ax1.plot(x, df["HVB_SCT_ACTIVE"], color='tab:blue', alpha=0.75)
+ax1.tick_params(axis='y', labelcolor='tab:blue')
+
+ax2.set_ylabel('Ierms(Arms)', color='black')
+ax2.plot(x, df["Ierms"], color='black', alpha=1)
+ax2.tick_params(axis='y', labelcolor='black')
+
+# ax3.set_ylabel('HVB_IDLE_ACTIVE', color='red')
+ax3.plot(x, df["HVB_IDLE_ACTIVE"], color='red', alpha=0.75)
+ax3.tick_params(axis='y', labelcolor='red')
+
+fig.tight_layout()
 plt.show()
 # #=====================圖表指令-end============================
