@@ -4,7 +4,7 @@ import glob
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 
-
+2
 #說明: 該程式為抓出Delta6 使用SAM程式紀錄的數據並篩選出Torque和Speed的圖表
 #line#13 -> 其中數據中"TIME" 透過Pare_time進行轉換
 #line#66 -> 0為起始欄,將欄位1~16刪除
